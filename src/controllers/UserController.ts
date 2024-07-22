@@ -31,9 +31,9 @@ class UserController {
       const passwordsMatch = await bcrypt.compare(password, user.password);
 
       if (!user) {
-        return null;
+        return res.sendStatus(400);
       } else if (!passwordsMatch) {
-        return null;
+        return res.sendStatus(400);
       } else {
         return res.status(200).json({ data: user });
       }
