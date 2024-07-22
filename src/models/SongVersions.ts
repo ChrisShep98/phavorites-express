@@ -1,8 +1,5 @@
 import mongoose, { Schema, models } from "mongoose";
 
-// TO DO: add comments and # of upvotes to this schema
-mongoose.Schema.Types.ObjectId;
-
 const songVersionSchema = new Schema(
   {
     songName: {
@@ -27,6 +24,14 @@ const songVersionSchema = new Schema(
     },
     votedBy: {
       type: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
+    },
+    comments: {
+      type: [
+        {
+          comment: String,
+          username: String,
+        },
+      ],
     },
     userWhoPosted: {
       type: String,

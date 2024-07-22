@@ -68,6 +68,21 @@ class SongController {
       return res.sendStatus(400);
     }
   };
+  addComment = async (req: Request, res: Response) => {
+    try {
+      const { postId } = req.params;
+      const { comment, username } = req.body;
+      const songSubmission = await SongVersions.findByIdAndUpdate(postId);
+
+      songSubmission.comments.push({ comment, username });
+
+      songSubmission.save();
+
+      return res.status(200).json({ message: "Comment successfully added" });
+    } catch (error) {
+      return res.sendStatus(400);
+    }
+  };
 }
 
 export default new SongController();
