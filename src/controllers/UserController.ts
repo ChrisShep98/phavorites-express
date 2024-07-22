@@ -24,6 +24,24 @@ class UserController {
     }
   };
 
+  loginUser = async (req: Request, res: Response) => {
+    try {
+      const { username, password } = req.body;
+      const user = await User.findOne({ username: username });
+      const passwordsMatch = await bcrypt.compare(password, user.password);
+
+      if (!user) {
+        return null;
+      } else if (!passwordsMatch) {
+        return null;
+      } else {
+        return res.status(200).json({ data: user });
+      }
+    } catch (error) {
+      return res.sendStatus(400);
+    }
+  };
+
   getUserById = async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
