@@ -12,5 +12,6 @@ router.post("/songSubmittion", SongController.submitSong);
 router.post("/addComment/:postId", SongController.addComment);
 router.get("/allSubmissions", SongController.getAllSubmissions);
 router.patch("/:id/upVote", SongController.updateVoteCount);
+router.get("/comments/:postId", SongController.getComments);
 
 export default router;

@@ -83,6 +83,19 @@ class SongController {
       return res.sendStatus(400);
     }
   };
+
+  getComments = async (req: Request, res: Response) => {
+    const { postId } = req.params;
+
+    try {
+      const songSubmission = await SongVersions.findById(postId);
+      const comments = songSubmission.comments;
+
+      return res.status(200).json({ data: comments });
+    } catch (error) {
+      return res.sendStatus(400);
+    }
+  };
 }
 
 export default new SongController();
