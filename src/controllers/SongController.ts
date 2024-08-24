@@ -6,8 +6,15 @@ import { Request, Response } from "express";
 class SongController {
   submitSong = async (req: Request, res: Response) => {
     try {
-      const { songName, date, venueName, venueLocation, userWhoPosted, description } =
-        await req.body;
+      const {
+        songName,
+        date,
+        venueName,
+        venueLocation,
+        userWhoPosted,
+        description,
+        slug,
+      } = await req.body;
 
       const alreadyExists = await SongVersions.findOne({ date: date });
 
@@ -24,6 +31,7 @@ class SongController {
         userWhoPosted,
         venueName,
         venueLocation,
+        slug,
       });
 
       return res.status(200).json({ message: "Song version created!" });
@@ -92,6 +100,17 @@ class SongController {
       const comments = songSubmission.comments;
 
       return res.status(200).json({ data: comments });
+    } catch (error) {
+      return res.sendStatus(400);
+    }
+  };
+
+  getSubmissionsOfOneSong = async (req: Request, res: Response) => {
+    const { slug } = req.params;
+
+    try {
+      const allSongs = await SongVersions.find({ slug });
+      return res.status(200).json({ data: allSongs });
     } catch (error) {
       return res.sendStatus(400);
     }
