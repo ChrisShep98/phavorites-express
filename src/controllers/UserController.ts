@@ -16,6 +16,10 @@ class UserController {
         return res.status(400).json({ message: "Email is already in use" });
       }
 
+      if (username.includes(" ")) {
+        return res.status(400).json({ message: "Cannot use spaces in username" });
+      }
+
       await User.create({ username, email, password: hashedPassword });
 
       return res.status(200).json({ message: "User created!" });
@@ -46,6 +50,16 @@ class UserController {
     try {
       const { id } = req.params;
       const user = await User.findById(id);
+      return res.status(200).json({ data: user });
+    } catch (error) {
+      return res.sendStatus(400);
+    }
+  };
+
+  getUserByUsername = async (req: Request, res: Response) => {
+    try {
+      const { username } = req.params;
+      const user = await User.find({ username });
       return res.status(200).json({ data: user });
     } catch (error) {
       return res.sendStatus(400);
