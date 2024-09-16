@@ -4,7 +4,8 @@ import SongController from "../controllers/SongController";
 
 const router = express.Router();
 
-router.get("/user/:id", UserController.getUserById); // not needed?
+// router.get("/user/:id", UserController.getUserById);
+router.get("/user/:username", UserController.getUserByUsername);
 router.post("/login", UserController.loginUser);
 router.post("/register", UserController.registerUser);
 
