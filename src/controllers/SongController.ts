@@ -115,6 +115,16 @@ class SongController {
       return res.sendStatus(400);
     }
   };
+  getSubmissionsFromUser = async (req: Request, res: Response) => {
+    const { username } = req.params;
+
+    try {
+      const allSongs = await SongVersions.find({ userWhoPosted: username });
+      return res.status(200).json({ data: allSongs });
+    } catch (error) {
+      return res.sendStatus(400);
+    }
+  };
 }
 
 export default new SongController();
