@@ -40,15 +40,6 @@ class SongController {
     }
   };
 
-  getAllSubmissions = async (req: Request, res: Response) => {
-    try {
-      const allSubmissions = await SongVersions.find();
-      return res.status(200).json({ data: allSubmissions });
-    } catch (error) {
-      return res.sendStatus(400);
-    }
-  };
-
   updateVoteCount = async (req: Request, res: Response) => {
     try {
       const { userId } = req.body;
@@ -105,23 +96,21 @@ class SongController {
     }
   };
 
-  getSubmissionsOfOneSong = async (req: Request, res: Response) => {
-    const { slug } = req.params;
+  getSubmissions = async (req: Request, res: Response) => {
+    const { filter, value } = req.query;
 
     try {
-      const allSongs = await SongVersions.find({ slug });
-      return res.status(200).json({ data: allSongs });
+      if (!filter && !value) {
+        console.log("if is run");
+        const allSubmissions = await SongVersions.find();
+        return res.status(200).json({ data: allSubmissions });
+      } else {
+        const filterField = filter as string;
+        const filterSubmissions = await SongVersions.find({ [filterField]: value });
+        return res.status(200).json({ data: filterSubmissions });
+      }
     } catch (error) {
-      return res.sendStatus(400);
-    }
-  };
-  getSubmissionsFromUser = async (req: Request, res: Response) => {
-    const { username } = req.params;
-
-    try {
-      const allSongs = await SongVersions.find({ userWhoPosted: username });
-      return res.status(200).json({ data: allSongs });
-    } catch (error) {
+      console.log(error, "error caught");
       return res.sendStatus(400);
     }
   };
