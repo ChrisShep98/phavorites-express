@@ -105,7 +105,9 @@ class SongController {
         return res.status(200).json({ data: allSubmissions });
       } else {
         const filterField = filter as string;
-        const filterSubmissions = await SongVersions.find({ [filterField]: value });
+        const filterSubmissions = await SongVersions.find({ [filterField]: value }).sort({
+          voteCount: -1,
+        });
         return res.status(200).json({ data: filterSubmissions });
       }
     } catch (error) {
