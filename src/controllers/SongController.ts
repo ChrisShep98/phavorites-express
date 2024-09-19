@@ -101,7 +101,6 @@ class SongController {
 
     try {
       if (!filter && !value) {
-        console.log("if is run");
         const allSubmissions = await SongVersions.find();
         return res.status(200).json({ data: allSubmissions });
       } else {
