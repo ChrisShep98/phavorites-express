@@ -56,9 +56,7 @@ class UserController {
 
       user.profilePicture = cloudinaryImage;
       user.save();
-      return res
-        .sendStatus(200)
-        .json({ message: "Profile picture successfully updated" });
+      return res.json({ message: "Profile picture successfully updated" });
     } catch (error) {
       return res.sendStatus(400);
     }
