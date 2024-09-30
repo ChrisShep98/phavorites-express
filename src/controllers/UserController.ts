@@ -46,6 +46,24 @@ class UserController {
     }
   };
 
+  // When a user updates their profile pic the old one still stays in cloudinary.
+  uploadProfilePicture = async (req: any, res: Response) => {
+    try {
+      const { id } = req.params;
+      const cloudinaryImage = req.file.path;
+
+      const user = await User.findByIdAndUpdate(id);
+
+      user.profilePicture = cloudinaryImage;
+      user.save();
+      return res
+        .sendStatus(200)
+        .json({ message: "Profile picture successfully updated" });
+    } catch (error) {
+      return res.sendStatus(400);
+    }
+  };
+
   getUserById = async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
@@ -56,6 +74,7 @@ class UserController {
     }
   };
 
+  // TODO: remove the email and password prop from getting sent back lol major security issue even with the hashed password. Don't send back the entire user schema
   getUserByUsername = async (req: Request, res: Response) => {
     try {
       const { username } = req.params;
