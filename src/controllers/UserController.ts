@@ -62,6 +62,15 @@ class UserController {
     }
   };
 
+  getProfilePicture = async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const user = await User.findById(id);
+
+      return res.json({ data: user.profilePicture });
+    } catch (error) {}
+  };
+
   getUserById = async (req: Request, res: Response) => {
     try {
       const { id } = req.params;

@@ -45,6 +45,7 @@ router.put(
   upload.single("profilePicture"),
   UserController.uploadProfilePicture
 );
+router.get("/getProfilePicture/:id", UserController.getProfilePicture);
 
 router.post("/songSubmittion", SongController.submitSong);
 router.post("/addComment/:postId", SongController.addComment);
