@@ -94,6 +94,7 @@ class UserController {
           profilePicture: user.profilePicture,
           createdAt: user.createdAt,
           updatedAt: user.updatedAt,
+          _id: user._id,
         },
       });
     } catch (error) {
