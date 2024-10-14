@@ -1,6 +1,7 @@
 import User from "../models/Users";
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
+import { UserType } from "../types/user";
 
 class UserController {
   registerUser = async (req: Request, res: Response) => {
@@ -85,8 +86,15 @@ class UserController {
   getUserByUsername = async (req: Request, res: Response) => {
     try {
       const { username } = req.params;
-      const user = await User.find({ username });
-      return res.status(200).json({ data: user });
+      const user = await User.findOne({ username });
+      return res.status(200).json({
+        data: {
+          username: user.username,
+          profilePicture: user.profilePicture,
+          createdAt: user.createdAt,
+          updatedAt: user.updatedAt,
+        },
+      });
     } catch (error) {
       return res.sendStatus(400);
     }
