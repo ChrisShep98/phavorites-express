@@ -1,7 +1,6 @@
 import User from "../models/Users";
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
-import { UserType } from "../types/user";
 
 class UserController {
   registerUser = async (req: Request, res: Response) => {
