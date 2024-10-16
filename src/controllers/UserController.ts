@@ -67,7 +67,7 @@ class UserController {
       const { id } = req.params;
       const user = await User.findById(id);
 
-      return res.json({ data: user.profilePicture });
+      return res.status(200).json({ data: user.profilePicture });
     } catch (error) {
       return res.sendStatus(400);
     }

@@ -1,8 +1,6 @@
 import SongVersions from "../models/SongVersions";
 import { Request, Response } from "express";
 
-// TO DO: add GET method for getting all submited songs and GET for specific songs
-
 class SongController {
   submitSong = async (req: Request, res: Response) => {
     try {
@@ -103,6 +101,12 @@ class SongController {
       if (!filter && !value) {
         const allSubmissions = await SongVersions.find();
         return res.status(200).json({ data: allSubmissions });
+        // TODO: lol this is kind of a confusing way to limit by the filter here should improve and make easier to understand in the future
+      } else if (filter == "limit") {
+        const lastTenSubmissions = await SongVersions.find()
+          .sort({ createdAt: -1 })
+          .limit(Number(value));
+        return res.status(200).json({ data: lastTenSubmissions });
       } else {
         const filterField = filter as string;
         const filterSubmissions = await SongVersions.find({ [filterField]: value }).sort({
