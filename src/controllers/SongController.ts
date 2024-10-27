@@ -17,9 +17,12 @@ class SongController {
       const alreadyExists = await SongVersions.findOne({ date: date });
 
       if (alreadyExists) {
-        return res.status(400).json({
-          message: `This version was already posted by - ${alreadyExists.userWhoPosted}`,
-        });
+        throw new Error(
+          `This version was already posted by - ${alreadyExists.userWhoPosted}`
+        );
+      }
+      if (!userWhoPosted) {
+        throw new Error("Please login to submit a post");
       }
 
       await SongVersions.create({
@@ -31,10 +34,9 @@ class SongController {
         venueLocation,
         slug,
       });
-
       return res.status(200).json({ message: "Song version created!" });
-    } catch (error) {
-      return res.sendStatus(400);
+    } catch (error: any) {
+      return res.status(400).json({ message: error.message });
     }
   };
 

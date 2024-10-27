@@ -9,22 +9,26 @@ class UserController {
       const hashedPassword = await bcrypt.hash(password, 10);
 
       // TODO: Check if username exists in DB
-      const existingUser = await User.findOne({ email });
+      const existingUserEmail = await User.findOne({ email });
+      const existingUsername = await User.findOne({ username });
 
-      if (existingUser) {
-        // return new Response("Email is already in use", { status: 400 });
-        return res.status(400).json({ message: "Email is already in use" });
+      if (existingUserEmail) {
+        throw new Error("Email is already in use");
+      }
+
+      if (existingUsername) {
+        throw new Error("An account with this username already exists");
       }
 
       if (username.includes(" ")) {
-        return res.status(400).json({ message: "Cannot use spaces in username" });
+        throw new Error("Cannot use spaces in username");
       }
 
       await User.create({ username, email, password: hashedPassword });
 
       return res.status(200).json({ message: "User created!" });
-    } catch (error) {
-      return res.sendStatus(400);
+    } catch (error: any) {
+      return res.status(400).json({ message: error.message });
     }
   };
 
