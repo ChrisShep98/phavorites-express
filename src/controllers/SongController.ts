@@ -74,10 +74,10 @@ class SongController {
   addComment = async (req: Request, res: Response) => {
     try {
       const { postId } = req.params;
-      const { comment, username } = req.body;
+      const { comment, username, profilePicture } = req.body;
       const songSubmission = await SongVersions.findByIdAndUpdate(postId);
 
-      songSubmission.comments.push({ comment, username });
+      songSubmission.comments.push({ comment, username, profilePicture });
 
       songSubmission.save();
 

@@ -30,11 +30,15 @@ const songVersionSchema = new Schema(
         {
           comment: String,
           username: String,
+          profilePicture: String,
         },
       ],
     },
     userWhoPosted: {
-      type: String,
+      type: {
+        username: String,
+        profilePicture: String,
+      },
       required: true,
     },
     description: {
