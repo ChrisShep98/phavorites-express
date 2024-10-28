@@ -47,6 +47,10 @@ class SongController {
       const songSubmission = await SongVersions.findByIdAndUpdate(id);
       const usersWhoVoted = songSubmission.votedBy;
 
+      if (!userId) {
+        throw new Error("Please login to vote");
+      }
+
       if (usersWhoVoted.includes(userId)) {
         songSubmission.voteCount -= 1;
 
@@ -63,8 +67,8 @@ class SongController {
 
       songSubmission.save();
       return res.status(200).json({ message: "Up vote successfully added!" });
-    } catch (error) {
-      return res.sendStatus(400);
+    } catch (error: any) {
+      return res.status(400).json({ message: error.message });
     }
   };
   addComment = async (req: Request, res: Response) => {
