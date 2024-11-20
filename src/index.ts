@@ -8,6 +8,7 @@ dotenv.config();
 
 const app = express();
 
+console.log("wat");
 connectMongoDB();
 
 app.use(express.json());
