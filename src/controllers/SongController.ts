@@ -21,6 +21,7 @@ class SongController {
           `This version was already posted by - ${alreadyExists.userWhoPosted}`
         );
       }
+      // TODO: I'm checking the session status on the front end so don't need to check and throw new error here
       if (!userWhoPosted) {
         throw new Error("Please login to submit a post");
       }
@@ -74,10 +75,10 @@ class SongController {
   addComment = async (req: Request, res: Response) => {
     try {
       const { postId } = req.params;
-      const { comment, username, profilePicture } = req.body;
+      const { comment, username, userId } = req.body;
       const songSubmission = await SongVersions.findByIdAndUpdate(postId);
 
-      songSubmission.comments.push({ comment, username, profilePicture });
+      songSubmission.comments.push({ comment, username, userId });
 
       songSubmission.save();
 
