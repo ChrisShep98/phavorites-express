@@ -8,12 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@types/bcryptjs':
-        specifier: ^2.4.6
-        version: 2.4.6
-      '@types/express':
-        specifier: ^4.17.21
-        version: 4.17.21
       bcryptjs:
         specifier: ^2.4.3
         version: 2.4.3
@@ -48,6 +42,15 @@ importers:
         specifier: ^10.9.2
         version: 10.9.2(@types/node@20.14.11)(typescript@5.5.3)
     devDependencies:
+      '@types/bcryptjs':
+        specifier: ^2.4.6
+        version: 2.4.6
+      '@types/express':
+        specifier: ^4.17.21
+        version: 4.17.21
+      '@types/node':
+        specifier: ^20
+        version: 20.14.11
       typescript:
         specifier: ^5.5.3
         version: 5.5.3
