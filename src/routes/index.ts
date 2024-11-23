@@ -1,6 +1,7 @@
 import express from "express";
 import UserController from "../controllers/UserController";
 import SongController from "../controllers/SongController";
+import MiscController from "../controllers/MiscController";
 const multer = require("multer");
 const cloudinary = require("cloudinary").v2;
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
@@ -37,6 +38,7 @@ const storage = new CloudinaryStorage({
 const upload = multer({ storage });
 
 // router.get("/user/:id", UserController.getUserById);
+router.get("/", MiscController.welcomePage);
 router.get("/user/:username", UserController.getUserByUsername);
 router.post("/login", UserController.loginUser);
 router.post("/register", UserController.registerUser);
