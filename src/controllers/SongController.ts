@@ -18,7 +18,7 @@ class SongController {
 
       if (alreadyExists) {
         throw new Error(
-          `This version was already posted by - ${alreadyExists.userWhoPosted}`
+          `This version was already posted by - ${alreadyExists.userWhoPosted.username}`
         );
       }
       // TODO: I'm checking the session status on the front end so don't need to check and throw new error here
