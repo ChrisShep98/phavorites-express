@@ -1,5 +1,6 @@
 import SongVersions from "../models/SongVersions";
 import { Request, Response } from "express";
+import User from "../models/Users";
 
 class SongController {
   submitSong = async (req: Request, res: Response) => {
@@ -26,7 +27,7 @@ class SongController {
         throw new Error("Please login to submit a post");
       }
 
-      await SongVersions.create({
+      const post = await SongVersions.create({
         songName,
         date,
         description,
@@ -35,6 +36,12 @@ class SongController {
         venueLocation,
         slug,
       });
+
+      const user = await User.findById(userWhoPosted.userId);
+
+      // to get the full document of the posts call the .populate("posts") method when querying the user, example: const user = await User.findById(id).populate("posts");
+      user.posts.push(post._id);
+      user.save();
       return res.status(200).json({ message: "Song version created!" });
     } catch (error: any) {
       return res.status(400).json({ message: error.message });

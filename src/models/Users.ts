@@ -21,6 +21,9 @@ const userSchema = new Schema(
       default: "",
       required: false,
     },
+    posts: {
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "song_versions" }],
+    },
   },
   { timestamps: true }
 );
