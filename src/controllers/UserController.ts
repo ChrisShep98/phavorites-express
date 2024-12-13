@@ -1,6 +1,7 @@
 import User from "../models/Users";
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
+import SongVersions from "../models/SongVersions";
 
 class UserController {
   registerUser = async (req: Request, res: Response) => {
@@ -63,6 +64,20 @@ class UserController {
 
       user.profilePicture = cloudinaryImage;
       user.save();
+
+      const arrayOfPostsCommentedOn = user.postsCommentedOn;
+
+      // updates the profilePicture in comments
+      await SongVersions.updateMany(
+        { _id: { $in: arrayOfPostsCommentedOn } },
+        {
+          $set: { "comments.$[elem].profilePicture": cloudinaryImage },
+        },
+        {
+          arrayFilters: [{ "elem.userId": id }],
+        }
+      );
+
       return res.json({ message: "Profile picture successfully updated" });
     } catch (error) {
       return res.sendStatus(400);

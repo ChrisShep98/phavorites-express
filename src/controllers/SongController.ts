@@ -84,9 +84,16 @@ class SongController {
       const { postId } = req.params;
       const { comment, username, userId } = req.body;
       const songSubmission = await SongVersions.findByIdAndUpdate(postId);
+      const user = await User.findById(userId);
 
-      songSubmission.comments.push({ comment, username, userId });
+      if (!user.postsCommentedOn.includes(postId)) {
+        user.postsCommentedOn.push(postId);
+        user.save();
+      }
 
+      const profilePicture = user.profilePicture;
+
+      songSubmission.comments.push({ comment, username, userId, profilePicture });
       songSubmission.save();
 
       return res.status(200).json({ message: "Comment successfully added" });
