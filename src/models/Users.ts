@@ -24,6 +24,9 @@ const userSchema = new Schema(
     posts: {
       type: [{ type: mongoose.Schema.Types.ObjectId, ref: "song_versions" }],
     },
+    postsCommentedOn: {
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "song_versions" }],
+    },
   },
   { timestamps: true }
 );

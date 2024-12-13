@@ -31,6 +31,7 @@ const songVersionSchema = new Schema(
           comment: String,
           username: String,
           userId: String,
+          profilePicture: String,
         },
       ],
     },
