@@ -35,20 +35,33 @@ class UserController {
 
   loginUser = async (req: Request, res: Response) => {
     try {
-      const { username, password } = req.body;
-      const user = await User.findOne({ username });
+      console.log(req.body);
 
-      if (!user) {
-        throw new Error("Cannot find an account with this username");
+      const { usernameOrEmail, password } = req.body;
+      const userByUsername = await User.findOne({ username: usernameOrEmail });
+      const userByEmail = await User.findOne({ email: usernameOrEmail });
+
+      if (userByUsername) {
+        const passwordsMatchViaUsername = await bcrypt.compare(
+          password,
+          userByUsername.password
+        );
+        if (!passwordsMatchViaUsername) {
+          throw new Error("Invalid password");
+        }
+        return res.status(200).json({ data: userByUsername });
+      } else if (userByEmail) {
+        const passwordsMatchViaEmail = await bcrypt.compare(
+          password,
+          userByEmail.password
+        );
+        if (!passwordsMatchViaEmail) {
+          throw new Error("Invalid password");
+        }
+        return res.status(200).json({ data: userByEmail });
+      } else {
+        throw new Error("Cannot find an account with this username/email");
       }
-
-      const passwordsMatch = await bcrypt.compare(password, user.password);
-
-      if (!passwordsMatch) {
-        throw new Error("Invalid password");
-      }
-
-      return res.status(200).json({ data: user });
     } catch (error: any) {
       return res.status(400).json({ message: error.message });
     }
