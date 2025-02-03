@@ -54,5 +54,6 @@ router.post("/addComment/:postId", SongController.addComment);
 router.patch("/:id/upVote", SongController.updateVoteCount);
 router.get("/comments/:postId", SongController.getComments);
 router.get("/submissions", SongController.getSubmissions);
+router.delete("/deletePost/:postId", SongController.deleteSubmission);
 
 export default router;

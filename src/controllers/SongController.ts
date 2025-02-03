@@ -140,6 +140,18 @@ class SongController {
       return res.sendStatus(400);
     }
   };
+
+  deleteSubmission = async (req: Request, res: Response) => {
+    try {
+      const { postId } = req.params;
+
+      const deletedPost = await SongVersions.findByIdAndDelete(postId);
+
+      return res.status(200).json({ message: "Post successfully deleted", deletedPost });
+    } catch (error: any) {
+      return res.status(400).json({ message: error.message });
+    }
+  };
 }
 
 export default new SongController();
